@@ -16,9 +16,9 @@ public class GameMap {
     private String name;
     private String creator;
 
-    String world;
+String world;
     private List<Location> spawnLocations;
-    private transient boolean inGame;
+    private boolean inGame;
 
     public GameMap(String name, String creator, String world, List<Location> spawnLocations) {
         this.name = name;

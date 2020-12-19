@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Lobby {
 
-    private GameMap game;
+    private GameMap map;
     private GameSettings settings;
 
     Player host;
@@ -15,8 +15,10 @@ public class Lobby {
     private final Map<UUID, Integer> players = new HashMap<>();
     private final List<Integer> available_indices = new ArrayList<>();
 
-    public Lobby(String mapname, String host, int impostor_number) {
-
+    public Lobby(String mapname, Player host, int impostor_number) {
+        this.host = host;
+        this.map = MapManager.getManager().getMap(mapname);
+        this.impostorNumber = impostor_number;
     }
 
     public Player getHost() { return host; }

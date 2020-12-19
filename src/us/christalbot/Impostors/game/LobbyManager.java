@@ -1,5 +1,6 @@
 package us.christalbot.Impostors.game;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -61,6 +62,8 @@ public class LobbyManager {
             p.sendMessage("Cannot join more than 1 game!");
             return;
         }
+
+        p.setGameMode(GameMode.ADVENTURE);
 
         // Adds the player to the arena player list
         lobby.getPlayers().put(p.getUniqueId(), lobby.nextAvailablePlayerID());
@@ -124,6 +127,8 @@ public class LobbyManager {
         // Teleport to original location, remove it too
         p.teleport(locs.get(p.getUniqueId()));
         locs.remove(p.getUniqueId());
+
+        p.setGameMode(GameMode.SURVIVAL);
 
         // Heh, you're safe now :)
         p.setFireTicks(0);

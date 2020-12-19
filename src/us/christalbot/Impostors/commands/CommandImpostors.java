@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import us.christalbot.Impostors.Impostors;
 
 public class CommandImpostors implements CommandExecutor {
 
@@ -14,7 +15,7 @@ public class CommandImpostors implements CommandExecutor {
         if(commandSender instanceof Player) {
             player = (Player) commandSender;
         } else {
-            commandSender.sendMessage("Maps must be managed from in-game.");
+            commandSender.sendMessage(Impostors.prefix + "Impostors plugin must be managed from in-game.");
             return true;
         }
 

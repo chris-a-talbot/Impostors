@@ -9,6 +9,8 @@ import us.christalbot.Impostors.game.MapManager;
 
 public class Impostors extends JavaPlugin {
 
+    public static String prefix = "[Impostors] ";
+
     @Override
     public void onEnable() {
         getLogger().info("Loading Among Us...");
