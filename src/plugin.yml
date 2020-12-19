@@ -1,0 +1,22 @@
+name: Impostors
+version: 0.01
+author: aChaosis
+main: us.christalbot.Impostors.Impostors
+api-version: 1.16
+commands:
+  amongus:
+    description: General utility command for game, lobby, and map administration
+    usage: /impostors
+    permission: impostors.admin
+  map:
+    description: General utility command for creating and managing maps
+    usage: /map
+    permission: impostors.map
+  maps:
+    description: For listing, loading, or saving maps
+    usage: /maps
+    permission: impostors.map
+  lobby:
+    description: General utility command for managing game lobbies, including creation, settings, and joining
+    usage: /lobby
+    permission: impostors.lobby
