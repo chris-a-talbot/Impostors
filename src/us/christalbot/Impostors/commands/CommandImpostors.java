@@ -11,12 +11,15 @@ public class CommandImpostors implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        Player player;
-        if(commandSender instanceof Player) {
-            player = (Player) commandSender;
-        } else {
-            commandSender.sendMessage(Impostors.prefix + "Impostors plugin must be managed from in-game.");
-            return true;
+        if(s.equalsIgnoreCase("impostors")) {
+            Player player;
+            if(commandSender instanceof Player) {
+                player = (Player) commandSender;
+            } else {
+                commandSender.sendMessage(Impostors.prefix + "Impostors plugin must be managed from in-game.");
+                return true;
+            }
+
         }
 
         return true;

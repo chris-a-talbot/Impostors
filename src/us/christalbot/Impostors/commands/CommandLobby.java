@@ -31,6 +31,14 @@ public class CommandLobby implements CommandExecutor {
             } else if(strings[0].equalsIgnoreCase("leave")) {
                 lm.removePlayer(player);
                 player.sendMessage("Removed you from lobby!");
+            } else if(strings[0].equalsIgnoreCase("start")) {
+                if(lm.getLobbyByHost(player) != null) {
+                    lm.getLobbyByHost(player).startGame();
+                }
+            } else if(strings[0].equalsIgnoreCase("force-stop")) {
+                if(lm.getLobbyByHost(player) != null) {
+                    lm.getLobbyByHost(player).endGame();
+                }
             }
         }
 

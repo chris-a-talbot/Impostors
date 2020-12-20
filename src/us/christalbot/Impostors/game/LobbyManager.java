@@ -125,8 +125,8 @@ public class LobbyManager {
 
     // Sets the host of the game to the first entry in the players list
     public void updateHost(Lobby lobby) {
-        Map.Entry<UUID, Integer> entry = lobby.getPlayers().entrySet().iterator().next();
-        Player newHost = Bukkit.getPlayer(entry.getKey());
+        Map.Entry<Player, Integer> entry = lobby.getPlayers().entrySet().iterator().next();
+        Player newHost = entry.getKey();
         lobby.setHost(newHost);
     }
 
@@ -138,7 +138,7 @@ public class LobbyManager {
      */
     public boolean playerIsInGame(Player p) {
         for (Lobby lobby : this.lobbies) {
-            if (lobby.getPlayers().containsKey(p.getUniqueId())) return true;
+            if (lobby.getPlayers().containsKey(p)) return true;
         }
         return false;
     }
@@ -168,7 +168,7 @@ public class LobbyManager {
         p.setGameMode(GameMode.ADVENTURE);
 
         // Adds the player to the arena player list
-        lobby.getPlayers().put(p.getUniqueId(), lobby.nextAvailablePlayerID());
+        lobby.getPlayers().put(p, lobby.nextAvailablePlayerID());
 
         // Save the inventory and armor
         inv.put(p.getUniqueId(), p.getInventory().getContents());
@@ -199,7 +199,7 @@ public class LobbyManager {
 
         // Searches each arena for the player
         for (Lobby l : this.lobbies) {
-            if (l.getPlayers().containsKey(player.getUniqueId()))
+            if (l.getPlayers().containsKey(player))
                 lobby = l;
         }
 
@@ -212,7 +212,7 @@ public class LobbyManager {
         lobby.addAvailableID(lobby.getPlayerID(player));
 
         // Remove from arena player lost
-        lobby.getPlayers().remove(player.getUniqueId());
+        lobby.getPlayers().remove(player);
 
         // If the removed player was the last player, delete the lobby
         // If the removed player was the host but not the last player, reset the host
@@ -241,4 +241,7 @@ public class LobbyManager {
         player.setFireTicks(0);
     }
 
+    public void startGame(Lobby lobby) { lobby.startGame(); }
+
+    public void endGame(Lobby lobby) { lobby.endGame(); }
 }

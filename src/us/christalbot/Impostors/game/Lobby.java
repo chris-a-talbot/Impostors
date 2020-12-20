@@ -15,10 +15,11 @@ public class Lobby {
     Player host;
     int impostorNumber;
 
-    private final LinkedHashMap<UUID, Integer> players = new LinkedHashMap<>();
-    private final List<Integer> available_indices = new ArrayList<>();
-
+    private Game game;
     private boolean isInGame;
+
+    private final LinkedHashMap<Player, Integer> players = new LinkedHashMap<>();
+    private final List<Integer> available_indices = new ArrayList<>();
 
     public Lobby(GameMap mapName, Player host, int impostor_number) {
         this.lobbyID = lm.getNextAvailableLobbyID();
@@ -48,7 +49,7 @@ public class Lobby {
 
     public boolean isInGame() { return isInGame; }
 
-    public Map<UUID, Integer> getPlayers() { return players; }
+    public Map<Player, Integer> getPlayers() { return players; }
 
     public int nextAvailablePlayerID() {
         int index = available_indices.get(0);
@@ -56,8 +57,23 @@ public class Lobby {
         return index;
     }
 
-    public int getPlayerID(Player p) { return players.get(p.getUniqueId()); }
+    public int getPlayerID(Player p) { return players.get(p); }
 
     public void addAvailableID(int id) { available_indices.add(id); }
+
+    public boolean startGame() {
+        if(players.size() >= 4) {
+            game = new Game(this);
+            game.begin();
+            isInGame = true;
+            return true;
+        } else return false;
+    }
+
+    public void endGame() {
+        game.end();
+        game = null;
+        isInGame = false;
+    }
 
 }
