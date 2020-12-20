@@ -25,11 +25,16 @@ public class CommandLobby implements CommandExecutor {
             }
 
             if(strings[0].equalsIgnoreCase("create")) {
-
+                if(strings.length == 3) {
+                    lm.createLobby(player, strings[1], Integer.parseInt(strings[2]));
+                    player.sendMessage("Created lobby and added you to it!");
+                }
             } else if(strings[0].equalsIgnoreCase("leave")) {
-
+                lm.removePlayer(player);
+                player.sendMessage("Removed you from lobby!");
             }
         }
+
         return true;
     }
 }

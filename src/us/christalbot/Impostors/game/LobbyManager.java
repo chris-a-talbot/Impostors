@@ -100,7 +100,7 @@ public class LobbyManager {
                 if(!mm.isInUse(map)) {
                     Lobby lobby = new Lobby(map, host, impostorNumber);
                     lobbies.add(lobby);
-                    addPlayer(host, host);
+                    addPlayer(host, lobby.getID());
                     return true;
                 } else { return false; }
             }
@@ -136,22 +136,36 @@ public class LobbyManager {
     }
 
     /**
+     * Checks if the player is currently in an arena
+     *
+     * @param p the player to check
+     * @return {@code true} if the player is in game
+     */
+    public boolean playerIsInGame(Player p) {
+        for (Lobby lobby : this.lobbies) {
+            if (lobby.getPlayers().containsKey(p.getUniqueId()))
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Adds the player to an arena
      *
      * <p>Gets the arena by ID, checks that it exists,
      * and check the player isn't already in a game.</p>
      *
      * @param p the player to add
-     * @param host the arena ID. A check will be done to ensure its validity.
+     * @param lobbyID the arena ID. A check will be done to ensure its validity.
      */
-    public void addPlayer(Player p, Player host) {
-        Lobby lobby = this.getLobbyByHost(host);
+    public void addPlayer(Player p, int lobbyID) {
+        Lobby lobby = this.getLobbyByID(lobbyID);
         if (lobby == null) {
             p.sendMessage("Invalid arena!");
             return;
         }
 
-        if (this.isInGame(p)) {
+        if (this.playerIsInGame(p)) {
             p.sendMessage("Cannot join more than 1 game!");
             return;
         }
@@ -173,8 +187,8 @@ public class LobbyManager {
         // then teleporting them to the arena spawn
         locs.put(p.getUniqueId(), p.getLocation());
         p.sendMessage("You were added to a lobby! You will be teleported when the game begins.");
-        host.sendMessage("Player " + p.getName() + " has joined your lobby!");
-        host.sendMessage("You now have " + lobby.getPlayers().size() + " players in your lobby.");
+        lobby.getHost().sendMessage("Player " + p.getName() + " has joined your lobby!");
+        lobby.getHost().sendMessage("You now have " + lobby.getPlayers().size() + " players in your lobby.");
     }
 
     /**
@@ -206,10 +220,9 @@ public class LobbyManager {
         lobby.getPlayers().remove(player.getUniqueId());
 
         // If the removed player was the last player, delete the lobby
+        // If the removed player was the host but not the last player, reset the host
         if(lobby.getPlayers().size() == 0) { deleteLobby(lobby); }
-
-        // If the removed player was the host, reset the host
-        if(lobby.getHost() == player) { updateHost(lobby); }
+        else if(lobby.getHost() == player) { updateHost(lobby); }
 
         // Remove inventory acquired during the game
         player.getInventory().clear();
@@ -231,20 +244,6 @@ public class LobbyManager {
 
         // Heh, you're safe now :)
         player.setFireTicks(0);
-    }
-
-    /**
-     * Checks if the player is currently in an arena
-     *
-     * @param p the player to check
-     * @return {@code true} if the player is in game
-     */
-    public boolean isInGame(Player p) {
-        for (Lobby lobby : this.lobbies) {
-            if (lobby.getPlayers().containsKey(p.getUniqueId()))
-                return true;
-        }
-        return false;
     }
 
 }
