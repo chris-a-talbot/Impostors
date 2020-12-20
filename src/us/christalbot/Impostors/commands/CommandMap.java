@@ -1,5 +1,6 @@
 package us.christalbot.Impostors.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,7 +47,7 @@ public class CommandMap implements CommandExecutor {
                     player.sendMessage(Impostors.prefix + "Usage: /map delete <map_name>");
                 } else {
                     player.sendMessage(Impostors.prefix + "Deleting map '" + strings[1] + "'...");
-                    if(mm.deleteMap(strings[1])) {
+                    if(mm.deleteMap(mm.getMapByName(strings[1]))) {
                         player.sendMessage(Impostors.prefix + "Deleted map '" + strings[1] + "'!");
                     } else {
                         player.sendMessage(Impostors.prefix + "Map '" + strings[1] + "' doesn't exist.");
@@ -57,14 +58,14 @@ public class CommandMap implements CommandExecutor {
             } else if(strings[0].equalsIgnoreCase("setspawn")) {
                 if(strings.length != 3) {
                     player.sendMessage(Impostors.prefix + "Usage: /map setspawn <map_name> <spawnpoint_number>");
-                } else if(MapManager.getManager().getMap(strings[1]) == null) {
+                } else if(MapManager.getManager().getMapByName(strings[1]) == null) {
                     player.sendMessage(Impostors.prefix + "Could not find map named '" + strings[1] + "'");
                     player.sendMessage(Impostors.prefix + "Usage: /map setspawn <map_name> <spawnpoint_number>");
                 } else if(Integer.parseInt(strings[2]) <= 0 || Integer.parseInt(strings[2]) > 10) {
                     player.sendMessage(Impostors.prefix + "Spawnpoint number must be between 1 and 10!");
                     player.sendMessage(Impostors.prefix + "Usage: /map setspawn <map_name> <spawnpoint _number>");
                 } else {
-                    GameMap m = mm.getMap(strings[1]);
+                    GameMap m = mm.getMapByName(strings[1]);
                     m.setSpawnLocation(Integer.parseInt(strings[2]), player.getLocation());
                     player.sendMessage(Impostors.prefix + "Spawn point #" + strings[2] + " set!");
                 }
@@ -73,8 +74,8 @@ public class CommandMap implements CommandExecutor {
                 if(strings.length != 3) {
                     player.sendMessage(Impostors.prefix + "Usage: /map setname <old_name> <new_name>");
                 } else {
-                    if(mm.getMap(strings[1]) != null) {
-                        mm.getMap(strings[1]).setName(strings[2]);
+                    if(mm.getMapByName(strings[1]) != null) {
+                        mm.getMapByName(strings[1]).setName(strings[2]);
                         player.sendMessage(Impostors.prefix + "Renamed map '" + strings[1]
                                 + "' to '" + strings[2] + "'!");
                     } else {
@@ -86,8 +87,8 @@ public class CommandMap implements CommandExecutor {
                 if(strings.length != 3) {
                     player.sendMessage(Impostors.prefix + "Usage: /map setname <map_name> <creator_name>");
                 } else {
-                    if(mm.getMap(strings[1]) != null) {
-                        mm.getMap(strings[1]).setCreator(strings[2]);
+                    if(mm.getMapByName(strings[1]) != null) {
+                        mm.getMapByName(strings[1]).setCreator(strings[2]);
                         player.sendMessage(Impostors.prefix + "Changed creator of map '"
                                 + strings[1] + "' to '" + strings[2] + "'!");
                     } else {
@@ -99,9 +100,9 @@ public class CommandMap implements CommandExecutor {
                 if(strings.length != 2) {
                     player.sendMessage(Impostors.prefix + "Usage: /map verify <map_name>");
                 } else {
-                    if(mm.getMap(strings[1]) != null && mm.getMap(strings[1]).verifySpawnLocations()) {
+                    if(mm.getMapByName(strings[1]) != null && mm.getMapByName(strings[1]).verifySpawnLocations()) {
                         player.sendMessage(Impostors.prefix + "Map '" + strings[1] + "' is valid and playable!");
-                    } else if(mm.getMap(strings[1]) == null){
+                    } else if(mm.getMapByName(strings[1]) == null){
                         player.sendMessage(Impostors.prefix + "Could not find map '" + strings[1] + "'!");
                     } else {
                         player.sendMessage(Impostors.prefix + "Map '" + strings[1] + "' is not currently valid!");

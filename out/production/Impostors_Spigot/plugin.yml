@@ -4,7 +4,7 @@ author: aChaosis
 main: us.christalbot.Impostors.Impostors
 api-version: 1.16
 commands:
-  amongus:
+  impostors:
     description: General utility command for game, lobby, and map administration
     usage: /impostors
     permission: impostors.admin

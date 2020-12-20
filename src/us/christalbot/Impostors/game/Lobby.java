@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class Lobby {
+    private final LobbyManager lm = LobbyManager.getManager();
+
+    private int lobbyID;
 
     private GameMap map;
     private GameSettings settings;
@@ -12,13 +15,31 @@ public class Lobby {
     Player host;
     int impostorNumber;
 
-    private final Map<UUID, Integer> players = new HashMap<>();
+    private final LinkedHashMap<UUID, Integer> players = new LinkedHashMap<>();
     private final List<Integer> available_indices = new ArrayList<>();
 
-    public Lobby(String mapname, Player host, int impostor_number) {
+    private boolean isInGame;
+
+    public Lobby(GameMap mapName, Player host, int impostor_number) {
+        this.lobbyID = lm.getNextAvailableLobbyID();
         this.host = host;
-        this.map = MapManager.getManager().getMap(mapname);
+        this.map = mapName;
         this.impostorNumber = impostor_number;
+        for(int i = 0; i < 10; ++i) { available_indices.add(i); }
+    }
+
+    public int getID() { return lobbyID; }
+
+    public GameMap getMap() {
+        return map;
+    }
+
+    public String getMapName() {
+        return map.getName();
+    }
+
+    public void setMap(GameMap map) {
+        this.map = map;
     }
 
     public Player getHost() { return host; }
@@ -32,6 +53,8 @@ public class Lobby {
     public void setImpostorNumber(int impostorNumber) {
         this.impostorNumber = impostorNumber;
     }
+
+    public boolean isInGame() { return isInGame; }
 
     public Map<UUID, Integer> getPlayers() {
         return players;
@@ -50,4 +73,6 @@ public class Lobby {
     public void addAvailableID(int id) {
         available_indices.add(id);
     }
+
+
 }

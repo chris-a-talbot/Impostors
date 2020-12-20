@@ -1,7 +1,9 @@
 package us.christalbot.Impostors.game;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import us.christalbot.Impostors.Impostors;
 
@@ -14,15 +16,13 @@ public class GameMap {
     private final FileConfiguration config = plugin.getConfig();
 
     private String name;
-    private String creator;
-
-String world;
+    private String creatorName;
+    private World world;
     private List<Location> spawnLocations;
-    private boolean inGame;
 
-    public GameMap(String name, String creator, String world, List<Location> spawnLocations) {
+    public GameMap(String name, String creatorName, World world, List<Location> spawnLocations) {
         this.name = name;
-        this.creator = creator;
+        this.creatorName = creatorName;
         this.world = world;
         this.spawnLocations = spawnLocations;
     }
@@ -35,28 +35,28 @@ String world;
     // Change the map name and update the config
     public void setName(String name) {
         GameMap m = this;
-        mm.deleteMap(this.name);
+        mm.deleteMap(this);
         m.name = name;
         mm.pushMap(m);
     }
 
     // Returns the map creator's name
     public String getCreator() {
-        return creator;
+        return creatorName;
     }
 
     // Change the creator's name and update the config
-    public void setCreator(String creator) {
-        this.creator = creator;
-        config.set("maps." + name + ".creator", creator);
+    public void setCreator(String creatorName) {
+        this.creatorName = creatorName;
+        config.set("maps." + name + ".creator", creatorName);
         mm.saveMap(this);
     }
 
     // Returns the world of the map
-    public String getWorld() { return world; }
+    public World getWorld() { return world; }
 
     // Change the map world and update the config
-    public void setWorld(String world) {
+    public void setWorld(World world) {
         this.world = world;
         config.set("maps." + name + ".world", world);
         mm.saveMap(this);

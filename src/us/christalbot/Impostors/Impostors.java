@@ -7,13 +7,18 @@ import us.christalbot.Impostors.commands.CommandMap;
 import us.christalbot.Impostors.commands.CommandMaps;
 import us.christalbot.Impostors.game.MapManager;
 
+import java.util.logging.Logger;
+
 public class Impostors extends JavaPlugin {
 
     public static String prefix = "[Impostors] ";
 
     @Override
     public void onEnable() {
-        getLogger().info("Loading Among Us...");
+        MapManager mm = MapManager.getManager();
+        Logger log = getLogger();
+
+        log.info("Loading Among Us...");
 
         saveDefaultConfig();
         this.getCommand("impostors").setExecutor(new CommandImpostors());
@@ -21,14 +26,15 @@ public class Impostors extends JavaPlugin {
         this.getCommand("maps").setExecutor(new CommandMaps());
         this.getCommand("lobby").setExecutor(new CommandLobby());
 
-        MapManager.getManager().reloadAll();
+        mm.reloadAll();
 
-        getLogger().info("Loaded Among Us!");
+        log.info("Loaded Among Us!");
     }
 
     @Override
     public void onDisable() {
-        MapManager.getManager().saveAll();
+        MapManager mm = MapManager.getManager();
+        mm.saveAll();
     }
 
 }
