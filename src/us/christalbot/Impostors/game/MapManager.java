@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import us.christalbot.Impostors.Impostors;
 
@@ -29,9 +28,7 @@ public class MapManager {
 
     // Retrieve an instance of MapManager
     public static MapManager getManager() {
-        if (mm == null) {
-            mm = new MapManager();
-        }
+        if (mm == null) { mm = new MapManager(); }
         return mm;
     }
 
@@ -47,18 +44,18 @@ public class MapManager {
     */
     public GameMap getMapByName(String name) {
         for (GameMap a : this.maps) {
-            if (a.getName().equals(name)) {
-                return a;
-            }
+            if (a.getName().equals(name)) return a;
         }
+
         return null;
     }
 
     // Returns true if the given map is currently being used by a lobby
     public boolean isInUse(GameMap map) {
         for(Lobby lobby : LobbyManager.getManager().getLobbies()) {
-            if(lobby.getMap() == map) { return true; }
+            if (lobby.getMap() == map) return true;
         }
+
         return false;
     }
 
@@ -72,7 +69,7 @@ public class MapManager {
         World world;
         List<Location> spawnLocations = new ArrayList<>();
 
-        if(worldName == null) { world = null; }
+        if (worldName == null) { world = null; }
         else { world = Bukkit.getWorld(worldName); }
 
         for(int i = 0; i < 10; ++i) {
@@ -98,6 +95,7 @@ public class MapManager {
         if(config.getConfigurationSection("maps") != null) {
             Set<String> mapList =
                     Objects.requireNonNull(config.getConfigurationSection("maps")).getKeys(false);
+
             for(String name : mapList) {
                 loadMap(name);
             }
@@ -150,7 +148,7 @@ public class MapManager {
             plugin.saveConfig();
             loadMap(name);
             return true;
-        } else { return false; }
+        } else return false;
     }
 
     // Pushes a map to config from a given GameMap
@@ -196,7 +194,7 @@ public class MapManager {
             --mapNum;
             reloadAll();
             return true;
-        } else { return false; }
+        } else return false;
     }
 
 }

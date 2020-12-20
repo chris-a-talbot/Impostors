@@ -37,9 +37,7 @@ public class LobbyManager {
 
     // Retrieve an instance of LobbyManager
     public static LobbyManager getManager() {
-        if (lm == null) {
-            lm = new LobbyManager();
-        }
+        if(lm == null) { lm = new LobbyManager(); }
         return lm;
     }
 
@@ -64,10 +62,9 @@ public class LobbyManager {
      */
     public Lobby getLobbyByHost(Player host){
         for(Lobby lobby : this.lobbies) {
-            if (lobby.getHost() == host) {
-                return lobby;
-            }
+            if (lobby.getHost() == host) return lobby;
         }
+
         return null; // Not found
     }
 
@@ -77,10 +74,9 @@ public class LobbyManager {
      */
     public Lobby getLobbyByID(int id) {
         for(Lobby lobby : this.lobbies) {
-            if(lobby.getID() == id) {
-                return lobby;
-            }
+            if (lobby.getID() == id) return lobby;
         }
+
         return null; // Not found
     }
 
@@ -90,19 +86,18 @@ public class LobbyManager {
     // Creates a new lobby
     public boolean createLobby(Player host, String mapName, int impostorNumber) {
         for(Lobby lobby : this.lobbies) {
-            if(lobby.getMapName().equalsIgnoreCase(mapName)) {
-                return false;
-            }
+            if (lobby.getMapName().equalsIgnoreCase(mapName)) return false;
         }
+
 
         for(GameMap map : mm.getMaps()) {
             if(map.getName().equals(mapName)) {
                 if(!mm.isInUse(map)) {
                     Lobby lobby = new Lobby(map, host, impostorNumber);
                     lobbies.add(lobby);
-                    addPlayer(host, lobby.getID());
+                    this.addPlayer(host, lobby.getID());
                     return true;
-                } else { return false; }
+                } else return false;
             }
         }
 
@@ -117,7 +112,7 @@ public class LobbyManager {
         if(getLobbyByHost(host) != null) {
             lobbies.remove(getLobbyByHost(host));
             return true;
-         } else { return false; }
+         } else return false;
     }
 
     // Ends and deletes a lobby by ID
@@ -125,7 +120,7 @@ public class LobbyManager {
         if(getLobbyByID(lobbyID) != null) {
             lobbies.remove(getLobbyByID(lobbyID));
             return true;
-        } else { return false; }
+        } else return false;
     }
 
     // Sets the host of the game to the first entry in the players list
@@ -143,8 +138,7 @@ public class LobbyManager {
      */
     public boolean playerIsInGame(Player p) {
         for (Lobby lobby : this.lobbies) {
-            if (lobby.getPlayers().containsKey(p.getUniqueId()))
-                return true;
+            if (lobby.getPlayers().containsKey(p.getUniqueId())) return true;
         }
         return false;
     }
@@ -160,6 +154,7 @@ public class LobbyManager {
      */
     public void addPlayer(Player p, int lobbyID) {
         Lobby lobby = this.getLobbyByID(lobbyID);
+
         if (lobby == null) {
             p.sendMessage("Invalid arena!");
             return;

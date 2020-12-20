@@ -5,7 +5,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import us.christalbot.Impostors.Impostors;
-import us.christalbot.Impostors.game.Lobby;
 import us.christalbot.Impostors.game.LobbyManager;
 import us.christalbot.Impostors.game.MapManager;
 
